@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
 
-H0 = 70.0  
+H0 = 0.07    #in Gyr inv
 
 def hubble_integrand(z, Omega_m, Omega_DE, w_DE):
     return 1 / np.sqrt(Omega_m * (1 + z)**3 + Omega_DE * np.exp(3 * quad(lambda z_prime: (1 + w_DE) / (1 + z_prime), 0, z)[0]))
