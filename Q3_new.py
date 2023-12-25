@@ -3,11 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
 import math
-H0 = 70.0  
+H0 = 0.07    #in Gyr inv
 
 def age_of_universe(z, Omega_m, Omega_r, Omega_DE, w_DE):
     result, _ = quad(lambda z_prime: age_integrand(z_prime, Omega_m, Omega_r, Omega_DE, w_DE), z, 8000)
-    return result / H0
+    return result
 
 def age_integrand(z, Omega_m, Omega_r, Omega_DE, w_DE):
     return 1 / ((1 + z) * Hubble_parameter(z, Omega_m, Omega_r, Omega_DE, w_DE))
