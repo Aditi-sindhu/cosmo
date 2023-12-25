@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.integrate import quad
 
 c = 3e5  
-H0 = 70.0
+H0 = 0.07     #in Gyr inverse units
 
 def Hubble_parameter(z, Omega_m, Omega_r, Omega_DE, w_DE):
     return H0 * np.sqrt(Omega_m * (1 + z)**3 + Omega_r * (1 + z)**4 + Omega_DE * np.exp(3 * quad(lambda z_prime: (1 + w_DE) / (1 + z_prime), 0, z)[0]))
@@ -12,19 +12,18 @@ def Hubble_parameter(z, Omega_m, Omega_r, Omega_DE, w_DE):
 def luminosity_distance(z, Omega_m, Omega_r, Omega_DE, w_DE):
     integrand = lambda z_prime: 1 / Hubble_parameter(z_prime, Omega_m, Omega_r, Omega_DE, w_DE)
     result, _ = quad(integrand, 0, z)
-    return (1 + z) * c * result
+    return (1 + z) * result
 
 def comoving_distance(z, Omega_m, Omega_r, Omega_DE, w_DE):
     integrand = lambda z_prime: 1 / Hubble_parameter(z_prime, Omega_m, Omega_r, Omega_DE, w_DE)
     result, _ = quad(integrand, 0, z)
-    return c * result
+    return result
 
 def angular_diameter_distance(z, Omega_m, Omega_r, Omega_DE, w_DE):
     return comoving_distance(z, Omega_m, Omega_r, Omega_DE, w_DE) / (1 + z)
 
-def proper_distance(z, Omega_m, Omega_r, Omega_DE, w_DE):
-    a_t0 = 1  
-    return a_t0 * comoving_distance(z, Omega_m, Omega_r, Omega_DE, w_DE) / (1+z)
+def proper_distance(z, Omega_m, Omega_r, Omega_DE, w_DE):  
+    return comoving_distance(z, Omega_m, Omega_r, Omega_DE, w_DE) / (1+z)
 
 z_values = np.linspace(0, 2, 1000)
 #z_values = [0, 2, 6, 1100]
@@ -84,26 +83,29 @@ plt.plot(z_values, DL1, label='Luminosity_distance Flat Lambda CDM')
 plt.plot(z_values, DC1, label='comoving_distance Flat Lambda CDM')
 plt.plot(z_values, DA1, label='angular_diameter_distance Flat Lambda CDM')
 plt.plot(z_values, DP1, label='proper_distance Flat Lambda CDM')
-
+plt.legend()
+plt.show()
 plt.plot(z_values, DL2, label='Luminosity_distance Flat dark energy(w_DE = -0.7) CDM')
 plt.plot(z_values, DC2, label='comoving_distance Flat dark energy(w_DE = -0.7) CDM')
 plt.plot(z_values, DA2, label='angular_diameter_distance Flat dark energy(w_DE = -0.7) CDM')
 plt.plot(z_values, DP2, label='proper_distance Flat dark energy(w_DE = -0.7) CDM')
-
+plt.legend()
+plt.show()
 plt.plot(z_values, DL3, label='Luminosity_distance Flat dark energy (w_DE = -1.2) CDM')
 plt.plot(z_values, DC3, label='comoving_distance Flat dark energy (w_DE = -1.2) CDM')
 plt.plot(z_values, DA3, label='angular_diameter_distance Flat dark energy (w_DE = -1.2) CDM')
 plt.plot(z_values, DP3, label='proper_distance Flat dark energy (w_DE = -1.2) CDM')
-
+plt.legend()
+plt.show()
 plt.plot(z_values, DL4, label='Luminosity_distance Flat Lambda CDM with Ωm = 0.8')
 plt.plot(z_values, DC4, label='comoving_distance Flat Lambda CDM with Ωm = 0.8')
 plt.plot(z_values, DA4, label='angular_diameter_distance Flat Lambda CDM with Ωm = 0.8')
 plt.plot(z_values, DP4, label='proper_distance Flat Lambda CDM with Ωm = 0.8')
-
+plt.legend()
+plt.show()
 plt.plot(z_values, DL5, label='Luminosity_distance Flat Lambda CDM with T0 = 100 K')
 plt.plot(z_values, DC5, label='comoving_distance Flat Lambda CDM with T0 = 100 K')
 plt.plot(z_values, DA5, label='angular_diameter_distance Flat Lambda CDM with T0 = 100 K')
 plt.plot(z_values, DP5, label='proper_distance Flat Lambda CDM with T0 = 100 K')
-
-#plt.legend()
+plt.legend()
 plt.show()
